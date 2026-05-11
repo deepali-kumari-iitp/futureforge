@@ -7,71 +7,55 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginPage() {
-
   const router = useRouter();
 
   const [email, setEmail] = useState("");
 
-  const [password, setPassword] =
-    useState("");
+  const [password, setPassword] = useState("");
 
-  const [loading, setLoading] =
-    useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
     try {
-
       setLoading(true);
 
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`,
         {
           email,
           password,
-        }
+        },
       );
 
-      localStorage.setItem(
-        "futureforge_token",
-        res.data.token
-      );
+      localStorage.setItem("futureforge_token", res.data.token);
 
-     router.push("/dashboard");
-     router.refresh();
+      router.push("/dashboard");
+      router.refresh();
     } catch (error) {
-
       console.log(error);
 
       alert("Invalid credentials");
     } finally {
-
       setLoading(false);
     }
   };
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#0B1120] px-6 text-white">
-
       <div className="w-full max-w-md rounded-[32px] border border-white/10 bg-white/5 p-10 backdrop-blur-xl">
-
         <p className="mb-3 text-sm uppercase tracking-[0.3em] text-cyan-400">
           Login
         </p>
 
-        <h1 className="text-4xl font-bold">
-          Welcome Back
-        </h1>
+        <h1 className="text-4xl font-bold">Welcome Back</h1>
 
         {/* Inputs */}
         <div className="mt-10 space-y-5">
-
           <input
             type="email"
             placeholder="Email"
             value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
+            onChange={(e) => setEmail(e.target.value)}
             className="w-full rounded-2xl border border-white/10 bg-white/5 p-4 outline-none placeholder:text-gray-500"
           />
 
@@ -79,9 +63,7 @@ export default function LoginPage() {
             type="password"
             placeholder="Password"
             value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
+            onChange={(e) => setPassword(e.target.value)}
             className="w-full rounded-2xl border border-white/10 bg-white/5 p-4 outline-none placeholder:text-gray-500"
           />
         </div>
@@ -91,10 +73,7 @@ export default function LoginPage() {
           onClick={handleLogin}
           className="mt-8 w-full rounded-2xl bg-gradient-to-r from-cyan-500 to-violet-500 py-4 font-semibold transition hover:scale-[1.02]"
         >
-
-          {loading
-            ? "Logging in..."
-            : "Login"}
+          {loading ? "Logging in..." : "Login"}
         </button>
       </div>
     </main>

@@ -26,7 +26,9 @@ export default function DashboardPage() {
 
     const fetchDonations = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/donations");
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/donations`,
+        );
 
         setDonations(res.data.donations);
       } catch (error) {
@@ -54,8 +56,6 @@ export default function DashboardPage() {
 
             <h1 className="text-5xl font-bold">FutureForge Analytics</h1>
           </div>
-
-        
         </div>
 
         {/* Stats */}
